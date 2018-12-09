@@ -6,9 +6,13 @@ import java.util.List;
 import cl.telematica.basicconnectionexample.models.Libro;
 import retrofit2.Callback;
 import retrofit2.http.GET;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public interface RetrofitConnection {
 
-    @GET("v2/5bfc6aa9310000780039be36")
-    void getLibro(Callback<List<Libro>> callback);
+    @GET("5bfc6aa9310000780039be36")
+    Call<List<Libro>> getLibro();
 }

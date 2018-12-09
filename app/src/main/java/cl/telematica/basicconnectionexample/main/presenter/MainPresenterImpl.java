@@ -1,4 +1,4 @@
-package cl.telematica.basicconnectionexample.main.presenter;
+/*package cl.telematica.basicconnectionexample.main.presenter;
 
 import cl.telematica.basicconnectionexample.main.MyAsyncTask;
 import cl.telematica.basicconnectionexample.main.view.MainView;
@@ -16,4 +16,4 @@ public class MainPresenterImpl implements MainPresenter {
         MyAsyncTask task = new MyAsyncTask(url, timeOut, mainView);
         task.execute();
     }
-}
+}*/

@@ -5,17 +5,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.List;
 import cl.telematica.basicconnectionexample.R;
 import cl.telematica.basicconnectionexample.connection.RetrofitConnection;
-import cl.telematica.basicconnectionexample.main.presenter.MainPresenterImpl;
+//import cl.telematica.basicconnectionexample.main.presenter.MainPresenterImpl;
 import cl.telematica.basicconnectionexample.models.Libro;
 import cl.telematica.basicconnectionexample.main.view.MainView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.Converter.Factory.*;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
@@ -35,26 +38,49 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setRecyclerViewParams();
 
         Retrofit restAdapter = new Retrofit.Builder()
-                .baseUrl("http://www.mocky.io/")
+                .baseUrl("http://www.mocky.io/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitConnection service = restAdapter.create(RetrofitConnection.class);
-        service.getLibro(new Callback<List<Libro>>() {
+        Call<List<Libro>> repo = service.getLibro();
+
+        repo.enqueue(new Callback<List<Libro>>() {
             @Override
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
-                List<Libro> list = response.body();
-                populateRecyclerView(list);
+                mAdapter = new UIAdapter(response.body());
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
             public void onFailure(Call<List<Libro>> call, Throwable t) {
-
             }
         });
 
-        MainPresenterImpl presenter = new MainPresenterImpl(this);
 
-        presenter.fetchData("http://www.mocky.io/v2/5bfc6aa9310000780039be36", 15000);
+
+
+
+
+
+
+        /*service.getLibro(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String responseString = response.body();
+                System.out.println(responseString);
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });*/
+
+        //MainPresenterImpl presenter = new MainPresenterImpl(this);
+
+        //presenter.fetchData("http://www.mocky.io/v2/5bfc6aa9310000780039be36", 15000);
     }
 
     @Override
@@ -70,8 +96,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void populateRecyclerView(List<Libro> libros) {
-        mAdapter = new UIAdapter(context, libros);
-        mRecyclerView.setAdapter(mAdapter);
+
     }
 
 }

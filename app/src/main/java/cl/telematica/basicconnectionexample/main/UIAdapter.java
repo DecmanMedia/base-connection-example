@@ -22,11 +22,9 @@ import cl.telematica.basicconnectionexample.models.Libro;
 
 public class UIAdapter extends RecyclerView.Adapter<UIAdapter.ViewHolder> {
 
-    private Context context;
     private List<Libro> mDataset;
 
-    public UIAdapter(Context context, List<Libro> mDataset) {
-        this.context = context;
+    public UIAdapter(List<Libro> mDataset) {
         this.mDataset = mDataset;
     }
 
@@ -57,7 +55,7 @@ public class UIAdapter extends RecyclerView.Adapter<UIAdapter.ViewHolder> {
         holder.mTextView.setText(libro.getNombre());
         holder.mGeneroView.setText(libro.getGenero());
         Glide
-                .with(context)
+                .with(holder.mPhotoView.getContext())
                 .load(libro.getPhoto())
                 .into(holder.mPhotoView);
     }
