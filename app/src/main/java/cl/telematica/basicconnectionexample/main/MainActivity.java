@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 .build();
 
         RetrofitConnection service = restAdapter.create(RetrofitConnection.class);
-        Call<List<Libro>> repo = service.getLibro();
+        Call<List<Libro>> callLibro = service.getLibro();
 
-        repo.enqueue(new Callback<List<Libro>>() {
+        callLibro.enqueue(new Callback<List<Libro>>() {
             @Override
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 mAdapter = new UIAdapter(response.body());
